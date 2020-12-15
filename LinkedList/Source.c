@@ -1,28 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
-typedef struct node {
+typedef struct node Node;
+struct node {
 	int data;
-	struct Node* next;
-	struct Node* prev;
-}Node;
+	Node* next;
+	Node* prev;
+};
 
-void CreateSimpleLinkedList(int num) {
+void SimpleLinkedList(int num) {
 	Node* head = NULL;
 	for (int i = 0;i < num;i++) {
 		int data;
 		printf("Node number %d data: ", i + 1);
 		scanf_s("%d", &data);
-		Node* temp = (Node*)malloc(sizeof(Node));
-		if (head == NULL) {
-			temp->data = data;
-			temp->next = NULL;
-			head = temp;
+		Node* temp = malloc(sizeof(Node));
+		if (temp)
+		{
+			if (head == NULL) {
+				temp->data = data;
+				temp->next = NULL;
+				head = temp;
+			}
+			else {
+				temp->data = data;
+				temp->next = head;
+				head = temp;
+			}
 		}
 		else {
-			temp->data = data;
-			temp->next = head;
-			head = temp;
+			printf("Malloc Failed to Allocate Memory");
+			exit(0);
 		}
 	}
 	simpleLinkListDisplay:
@@ -37,7 +45,7 @@ void CreateSimpleLinkedList(int num) {
 			printf("\nType: Simple Linked List");
 			printf("\nEnter number of nodes: ");
 			scanf_s("%d", &numNodes);
-			CreateSimpleLinkedList(numNodes);
+			SimpleLinkedList(numNodes);
 		case 2:
 			printf("\nItems in the linked list are\n");
 			Node* currentNode = head;
@@ -57,14 +65,14 @@ void CreateSimpleLinkedList(int num) {
 	return;
 }
 
-void CreateDoublyLinkedList(int num) {
+void DoublyLinkedList(int num) {
 	Node* head = NULL;
 	Node* tail = NULL;
 	for (int i = 0;i < num;i++) {
 		int data;
 		printf("Node number %d data: ", i + 1);
 		scanf_s("%d", &data);
-		Node* temp = (Node*)malloc(sizeof(Node));
+		Node* temp = malloc(sizeof(Node));
 		if (head == NULL) {
 			temp->data = data;
 			temp->next = NULL;
@@ -85,7 +93,6 @@ void CreateDoublyLinkedList(int num) {
 			tail->next = NULL;
 		}
 	}
-	printf("\D ");
 	while (head != NULL) {
 		printf("%d  ", head->data);
 		head = head->next;
@@ -102,13 +109,13 @@ int main() {
 		printf("\nType: Simple Linked List");
 		printf("\nEnter number of nodes: ");
 		scanf_s("%d", &numNodes);
-		CreateSimpleLinkedList(numNodes);
+		SimpleLinkedList(numNodes);
 		break;
 	case 2:
 		printf("\nType: Doubly Linked List");
 		printf("\nEnter number of nodes: ");
 		scanf_s("%d", &numNodes);
-		CreateDoublyLinkedList(numNodes);
+		DoublyLinkedList(numNodes);
 		break;
 	case 3:
 		exit(0);
