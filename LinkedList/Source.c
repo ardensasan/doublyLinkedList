@@ -35,7 +35,7 @@ void SimpleLinkedList(int num) {
 	}
 	simpleLinkListDisplay:
 		system("cls");
-		printf("Simple Link List \n 1. New Simple Link List\n 2. Display Items in List\n 3. Exit\n");
+		printf("Simple Link List \n 1. New Simple Link List\n 2. Display Items in List\n 3. Return\n ");
 		int choice = 0;
 		int numNodes = 0;
 		scanf_s("%d", &choice);
@@ -56,7 +56,7 @@ void SimpleLinkedList(int num) {
 			_getch();
 			break;
 		case 3:
-			exit(0);
+			return;
 			break;
 		default:
 			break;
@@ -68,6 +68,7 @@ void SimpleLinkedList(int num) {
 void DoublyLinkedList(int num) {
 	Node* head = NULL;
 	Node* tail = NULL;
+	Node* currentNode = NULL;
 	for (int i = 0;i < num;i++) {
 		int data;
 		printf("Node number %d data: ", i + 1);
@@ -78,6 +79,7 @@ void DoublyLinkedList(int num) {
 			temp->next = NULL;
 			temp->prev = NULL;
 			head = temp;
+			tail = temp;
 		}
 		else {
 			temp->data = data;
@@ -93,16 +95,53 @@ void DoublyLinkedList(int num) {
 			tail->next = NULL;
 		}
 	}
-	while (head != NULL) {
-		printf("%d  ", head->data);
-		head = head->next;
+doublyLinkListDisplay:
+	system("cls");
+	printf("Doubly Link List \n 1. New Doubly Link List\n 2. Display Items in List From Head\n 3. Display Items in List From Tail\n 4. Return\n ");
+	int choice = 0;
+	int numNodes = 0;
+	scanf_s("%d", &choice);
+	switch (choice)
+	{
+	case 1:
+		printf("\nType: Doubly Linked List");
+		printf("\nEnter number of nodes: ");
+		scanf_s("%d", &numNodes);
+		SimpleLinkedList(numNodes);
+	case 2:
+		printf("\nItems in the linked list from the head are\n ");
+		currentNode = head;
+		while (currentNode != NULL) {
+			printf("%d  ", currentNode->data);
+			currentNode = currentNode->next;
+		}
+		_getch();
+		break;
+	case 3:
+		printf("\nItems in the linked list from the tail are\n ");
+		currentNode = tail;
+		while (currentNode != NULL) {
+			printf("%d  ", currentNode->data);
+			currentNode = currentNode->prev;
+		}
+		_getch();
+		break;
+	case 4:
+		return;
+		break;
+	default:
+		break;
 	}
+	goto doublyLinkListDisplay;
 	return;
 }
 int main() {
 	int type;
-	int numNodes = 0;
-	printf("Linked List of Numbers\nChoose a linked list type: \n 1. Simple Linked List\n 2. Doubly Linked List\n 3. Exit\n");
+	int numNodes;
+start:
+	numNodes = 0;
+	system("cls");
+	printf("Linked List of Numbers\nChoose a linked list type: \n 1. Simple Linked List\n 2. Doubly Linked List\n 3. Exit\n ");
 	scanf_s("%d", &type);
 	switch (type) {
 	case 1:
@@ -110,12 +149,14 @@ int main() {
 		printf("\nEnter number of nodes: ");
 		scanf_s("%d", &numNodes);
 		SimpleLinkedList(numNodes);
+		goto start;
 		break;
 	case 2:
 		printf("\nType: Doubly Linked List");
 		printf("\nEnter number of nodes: ");
 		scanf_s("%d", &numNodes);
 		DoublyLinkedList(numNodes);
+		goto start;
 		break;
 	case 3:
 		exit(0);
