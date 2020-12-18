@@ -8,6 +8,36 @@ struct node {
 	Node* prev;
 };
 
+void DoublyLinkedListInsert(Node* head,Node* tail, int data, int index) {
+	int count = -1;
+	Node* currentNode = head;
+	Node* lastNode = head;
+	while (currentNode != NULL) {
+		count++;
+		if (count == index) {
+			Node* temp = malloc(sizeof(Node));
+			currentNode->prev->next = temp;
+			temp->data = data;
+			temp->next = currentNode;
+			temp->prev = currentNode->prev;
+			currentNode->prev = temp;
+			break;
+		}
+		currentNode = currentNode->next;
+	}
+	printf("\nElement successfully added at index %d ", index);
+	_getch();
+	return;
+}
+int GetLinkedListSize(Node* head) {
+	Node* currentNode = head;
+	int count = -1;
+	while (currentNode != NULL) {
+		count++;
+		currentNode = currentNode->next;
+	}
+	return count;
+}
 void SimpleLinkedList(int num) {
 	Node* head = NULL;
 	Node* tail = NULL;
@@ -44,6 +74,8 @@ void SimpleLinkedList(int num) {
 		switch (choice)
 		{
 		case 1:
+			head = NULL;
+			tail = NULL;
 			printf("\nType: Simple Linked List");
 			printf("\nEnter number of nodes: ");
 			scanf_s("%d", &numNodes);
@@ -125,10 +157,12 @@ doublyLinkListDisplay:
 	switch (choice)
 	{
 	case 1:
+		head = NULL;
+		tail = NULL;
 		printf("\nType: Doubly Linked List");
 		printf("\nEnter number of nodes: ");
 		scanf_s("%d", &numNodes);
-		SimpleLinkedList(numNodes);
+		DoublyLinkedList(numNodes);
 	case 2:
 		printf("\nItems in the linked list from the head are\n ");
 		currentNode = head;
@@ -148,20 +182,19 @@ doublyLinkListDisplay:
 		_getch();
 		break;
 	case 4:
-		printf("\n 1. Insert element from head\n 2. Insert element from tail \n 3. Insert element to index \n");
-		scanf_s("%d", &choice);
-		switch (choice) {
-		case 1:
-			printf("\n Enter element to insert from head: ");
-			scanf_s(" %d", &element);
-			Node* temp = malloc(sizeof(Node));
-			temp->data = element;
-			temp->next = head;
-			temp->prev = NULL;
-			head->prev = temp;
-			head = temp;
-			printf("\n Element successfully added");
+		count = GetLinkedListSize(head);
+		GetInsertIndex:
+		printf("\n Enter index from [ 0 - %d ] : ",count);
+		scanf_s(" %d", &numNodes); // reuse variable num nodes as index
+		if (numNodes > count || numNodes < 0) {
+			printf("\nInvalid index");
 			_getch();
+			goto GetInsertIndex;
+		}
+		else {
+			printf("\nEnter element to insert at index %d : ", numNodes);
+			scanf_s(" %d", &element);
+			DoublyLinkedListInsert(head, tail, element, numNodes);
 			goto doublyLinkListDisplay;
 		}
 		break;
